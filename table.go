@@ -60,11 +60,11 @@ func (t *Table) GetCols() int {
 
 // PutValue updates value of cell.
 func (t *Table) PutValue(row int, col int, value interface{}) {
-	if row >= t.rows {
-		panic(fmt.Sprintf("row out of order: %d in %d", row, t.rows))
+	if _, ok := t.values[row]; !ok {
+		t.values[row] = map[int]interface{}{}
 	}
-	if col >= t.cols {
-		panic(fmt.Sprintf("col out of order: %d in %d", col, t.cols))
+	if row >= t.rows {
+		t.rows = row + 1
 	}
 	t.values[row][col] = value
 }
